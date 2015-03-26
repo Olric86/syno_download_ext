@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Synology</title>
+    <link href="popup.css" rel="stylesheet" />
+    <script type="text/javascript" src="popup.js"></script>
+  </head>
+  <body>
+    <header>
+      <h3>DSM Configuration</h3>
+    </header>
+    <main>
+      <div>
+        <label for="host">Host</label>
+        <input type="text" id="host" />
+      </div>
+      <div>
+        <label for="port">Port</label>
+        <input type="number" id="port" />
+      </div>
+      <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" />
+      </div>
+      <div class="buttonContainer">
+        <button id="saveButton">Save</button>
+        <button id="testButton">Test Login</button>      
+      </div>
+      <div id="preloader" class="preloader" >
+        <div id="status" class="status">
+          <div class="spinner"></div>
+        </div>
+      </div>
+      <div id="message" class="preloader" >      
+        <div style="width: 100%; height: 100%">
+          <div id="messageText"></div>      
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
+

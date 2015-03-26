@@ -1,0 +1,97 @@
+body, html {
+  font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+  font-size: 100%;  
+}
+
+header {
+  border-bottom: 1px solid #0086e6;  
+}
+
+main {
+  padding: 5px;
+}
+
+.preloader {
+  background: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;        
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 1s, visibility 1s;
+  transition: opacity 1s, visibility 1s;
+}
+.status {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -18px 0 0 -18px;
+}
+
+.spinner {
+  height: 36px;
+  width: 36px;
+  position: relative;
+  -webkit-animation: rotation .8s infinite linear;
+  -moz-animation: rotation .8s infinite linear;
+  -o-animation: rotation .8s infinite linear;
+  animation: rotation .8s infinite linear;
+  border-left: 3px solid rgba(46, 116, 167, 0.15);
+  border-right: 3px solid rgba(46, 116, 167, 0.15);
+  border-bottom: 3px solid rgba(46, 116, 167, 0.15);
+  border-top: 3px solid rgba(46, 116, 167, 0.8);
+  border-radius: 100%;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(359deg)
+  }
+} 
+
+@keyframes rotation { 
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(359deg)
+  }
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#messageText {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1.0;
+}
+
+.success {
+  color: black;
+}
+.error {
+  color: firebrick;
+}
+
+
+.buttonContainer
+{
+  padding-top: 8px;
+}
