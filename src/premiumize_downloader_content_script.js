@@ -2,52 +2,72 @@ var _onDownloadPageRetrieved = function(e){
 	
 	if (e.target)
 	{
-		var r = e.target.responseText;
 		var button = e.target.button;
-		// try  to retrieve the link
-		var d = document.createElement("div");
-		d.innerHTML = r;
-		var a = d.querySelectorAll("#container > h2 > a")[0];		
-		
-		// add the event listener
-		// the request takes to much time and the response in the
-		// sendMessage func cannot be used
+		try
+		{
+			var r = e.target.responseText;
+			var button = e.target.button;
+			// try  to retrieve the link
+			var d = document.createElement("div");
+			d.innerHTML = r;
+			var a = d.querySelectorAll("#container > h2 > a")[0];		
+			
+			// add the event listener
+			// the request takes to much time and the response in the
+			// sendMessage func cannot be used
 
-		var _onMessageReceived = function(message, sender) {
-			if (message.url && message.url == a.href)
-			{
-				switch (message.msg) {
-					case "downloadOK":
-						button.textContent = "Done!";
-						button.disabled = false;	
-						button.classList.add('done');
-						break;
-					case "downloadKO":
-						button.textContent = "Error creating the download";
-						button.disabled = false;	
-						button.className = "btn btn-danger";
-						break;
-					case "invalidConfiguration":
-					default:
-						button.textContent = "Configuration error";
-						button.disabled = false;	
-						button.className = "btn btn-danger";
-						break;
+			var _onMessageReceived = function(message, sender) {
+				if (message.url && message.url == a.href)
+				{
+					switch (message.msg) {
+						case "downloadOK":
+							button.textContent = "Done!";
+							button.disabled = false;	
+							button.classList.add('done');
+							break;
+						case "downloadKO":
+							button.textContent = "Error creating the download";
+							button.disabled = false;	
+							button.className = "btn btn-danger";
+							break;
+						case "invalidConfiguration":
+						default:
+							button.textContent = "Configuration error";
+							button.disabled = false;	
+							button.className = "btn btn-danger";
+							break;
+					}
+					// magic!! remove the listener. God I love Javascript closures
+					chrome.runtime.onMessage.removeListener(_onMessageReceived);
 				}
-				// magic!! remove the listener. God I love Javascript closures
-				chrome.runtime.onMessage.removeListener(_onMessageReceived);
-			}
-		};
+			};
 
-		chrome.runtime.onMessage.addListener(_onMessageReceived);
+			chrome.runtime.onMessage.addListener(_onMessageReceived);
 
-		chrome.runtime.sendMessage({
-			action: 'download',
-			url: a.href
-		});
+			chrome.runtime.sendMessage({
+				action: 'download',
+				url: a.href
+			});
+		}
+		catch (e)
+		{
+			console.log(e);
+			button.textContent = "Error creating the download";
+			button.disabled = false;	
+			button.className = "btn btn-danger";
+		}
 	}
 };
 
+var _onDownloadError = function(e) {
+	if (e.target)
+	{
+		var button = e.target.button;
+		button.textContent = "Error creating the download";
+		button.disabled = false;	
+		button.className = "btn btn-danger";
+	}
+};
 
 var _onButtonClicked = function(e){
 	// this = button
@@ -58,7 +78,7 @@ var _onButtonClicked = function(e){
 		this.disabled = true;
 		this.textContent = "Requesting...";
 		x.open("GET", this.downloadLink, true);
-		x.addEventListener('error', function(e) { console.log(e); }, false);
+		x.addEventListener('error', _onDownloadError, false);
 		x.addEventListener('load', _onDownloadPageRetrieved, false);
 		x.send(null);
 	}

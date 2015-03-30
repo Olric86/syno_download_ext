@@ -1,9 +1,9 @@
 var App = (function(){
-  var host = localStorage['olric86.synology.host'] ? localStorage['olric86.synology.host'] : "";
+  var host = localStorage['o.s.host'] ? localStorage['o.s.host'] : "";
   var protocol = "http://";
-  var port = localStorage['olric86.synology.port'] ? localStorage['olric86.synology.port'] : "5000";
-  var username = localStorage['olric86.synology.username'] ? localStorage['olric86.synology.username'] : "";  
-  var password = localStorage['olric86.synology.password'] ? localStorage['olric86.synology.password'] : "";
+  var port = localStorage['o.s.port'] ? localStorage['o.s.port'] : "5000";
+  var username = localStorage['o.s.username'] ? localStorage['o.s.username'] : "";  
+  var password = localStorage['o.s.password'] ? localStorage['o.s.password'] : "";
   var authInfo = null;
   var downloadTaskInfo = null;
   var authAPIName = "SYNO.API.Auth";
@@ -11,11 +11,11 @@ var App = (function(){
   var loggedIn = false;
 
   var _readConf = function() {
-  	host = localStorage['olric86.synology.host'] ? localStorage['olric86.synology.host'] : "";
+  	host = localStorage['o.s.host'] ? localStorage['o.s.host'] : "";
 	  protocol = "http://";
-	  port = localStorage['olric86.synology.port'] ? localStorage['olric86.synology.port'] : "5000";
-	  username = localStorage['olric86.synology.username'] ? localStorage['olric86.synology.username'] : "";  
-	  password = localStorage['olric86.synology.password'] ? localStorage['olric86.synology.password'] : "";
+	  port = localStorage['o.s.port'] ? localStorage['o.s.port'] : "5000";
+	  username = localStorage['o.s.username'] ? localStorage['o.s.username'] : "";  
+	  password = localStorage['o.s.password'] ? localStorage['o.s.password'] : "";
   };
 
   var errors = {
@@ -226,11 +226,11 @@ var App = (function(){
 
   chrome.contextMenus.onClicked.addListener(function(info, tab){
 		if (info.menuItemId == 'addToSynologyMenu'){
-			host = localStorage['olric86.synology.host'] ? localStorage['olric86.synology.host'] : "";
+			host = localStorage['o.s.host'] ? localStorage['o.s.host'] : "";
   		protocol = "http://";
-  		port = localStorage['olric86.synology.port'] ? localStorage['olric86.synology.port'] : "5000";
-  		username = localStorage['olric86.synology.username'] ? localStorage['olric86.synology.username'] : "";  
-  		password = localStorage['olric86.synology.password'] ? localStorage['olric86.synology.password'] : "";
+  		port = localStorage['o.s.port'] ? localStorage['o.s.port'] : "5000";
+  		username = localStorage['o.s.username'] ? localStorage['o.s.username'] : "";  
+  		password = localStorage['o.s.password'] ? localStorage['o.s.password'] : "";
 			chrome.browserAction.setBadgeBackgroundColor({color: "#FFFD70"});
       chrome.browserAction.setBadgeText({text: "..."});      
       _requestDownload(username, password, info.linkUrl).then(function(){
@@ -255,7 +255,7 @@ var App = (function(){
 				type: "normal",
 				id:   "addToSynologyMenu",
 				contexts: ["link"],
-				title: "Add to my synology"
+				title: "Add to my Synology"
 			});
 		});
 
@@ -278,7 +278,9 @@ var App = (function(){
 				}
 				else
 				{
-					sendResponse({msg: "invalidConfiguration"});
+					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {msg: "invalidConfiguration", url: msg.url});
+          });
 				}
 				
 			}			
@@ -296,7 +298,7 @@ var App = (function(){
         }, function(){
           chrome.runtime.sendMessage({action: 'loginChecked', msg: "authKO", id: msg.id});
         });
-      }
+      }      
 		});
 
 	}

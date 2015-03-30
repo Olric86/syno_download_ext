@@ -1,15 +1,15 @@
 var App = (function(){
-  var host = localStorage['olric86.synology.host'] ? localStorage['olric86.synology.host'] : "";
+  var host = localStorage['o.s.host'] ? localStorage['o.s.host'] : "";
   var protocol = "http://";
-  var port = localStorage['olric86.synology.port'] ? localStorage['olric86.synology.port'] : "5000";
-  var username = localStorage['olric86.synology.username'] ? localStorage['olric86.synology.username'] : "";  
-  var password = localStorage['olric86.synology.password'] ? localStorage['olric86.synology.password'] : "";
+  var port = localStorage['o.s.port'] ? localStorage['o.s.port'] : "5000";
+  var username = localStorage['o.s.username'] ? localStorage['o.s.username'] : "";  
+  var password = localStorage['o.s.password'] ? localStorage['o.s.password'] : "";
   
   var _setConf = function() {
-    localStorage['olric86.synology.host'] = document.getElementById("host").value;
-    localStorage['olric86.synology.port'] = document.getElementById("port").value;
-    localStorage['olric86.synology.username'] = document.getElementById("username").value;
-    localStorage['olric86.synology.password'] = document.getElementById("password").value;
+    localStorage['o.s.host'] = document.getElementById("host").value;
+    localStorage['o.s.port'] = document.getElementById("port").value;
+    localStorage['o.s.username'] = document.getElementById("username").value;
+    localStorage['o.s.password'] = document.getElementById("password").value;
   };
 
   document.addEventListener("DOMContentLoaded", function(){
@@ -24,8 +24,8 @@ var App = (function(){
 
     document.getElementById('testButton').addEventListener('click', function(){
       _setConf();
-      if (localStorage['olric86.synology.username'] && 
-          localStorage['olric86.synology.password'] )
+      if (localStorage['o.s.username'] && 
+          localStorage['o.s.password'] )
       {
         
         var id = Date.now();
@@ -74,8 +74,8 @@ var App = (function(){
         chrome.runtime.sendMessage({
           action: 'checkLogin',
           id: id,
-          usr: localStorage['olric86.synology.username'],
-          pwd: localStorage['olric86.synology.password']
+          usr: localStorage['o.s.username'],
+          pwd: localStorage['o.s.password']
         });
       }
       
