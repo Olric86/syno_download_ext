@@ -9,6 +9,7 @@ var App = (function(){
   var authAPIName = "SYNO.API.Auth";
   var downloadTaskAPIName = "SYNO.DownloadStation.Task";
   var loggedIn = false;
+  var sSid = "";
 
   var _readConf = function() {
   	host = localStorage['o.s.host'] ? localStorage['o.s.host'] : "";
@@ -164,13 +165,19 @@ var App = (function(){
         account: username,
         passwd: password,
         session: "DownloadStation",
-        format: "cookie"
+        format: "sid"
       };
 
       return _jsonPromise({
         url: url,
         data: data,        
-      }).then(function(o){ loggedIn = true; }, function(){ loggedIn = false; });
+      }).then(function(o){ 
+        loggedIn = true; 
+        if (o.data && o.data.sid)
+        {
+          sSid = o.data.sid;
+        }
+      }, function(){ loggedIn = false; });
     });    
   };
 
@@ -183,7 +190,8 @@ var App = (function(){
         api: authAPIName,
         version: authInfo.maxVersion,
         method: "logout",        
-        session: "DownloadStation"        
+        session: "DownloadStation",
+        _sid: sSid       
       };
 
       return _jsonPromise({
@@ -208,7 +216,8 @@ var App = (function(){
           api: downloadTaskAPIName,
           version: downloadTaskInfo.maxVersion,
           method: "create",        
-          uri: dUrl        
+          uri: dUrl,
+          _sid: sSid
         };        
         return _jsonPromise({
           url: url,
