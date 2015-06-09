@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Synology add download",
-  "description": "This extesions allows remote adding of downloads to your Synology Nas Download station.",
-  "version": "0.1.3",
+  "description": "This extensions allows remote adding of downloads to your Synology Nas Download station.",
+  "version": "0.1.4",
   "browser_action": {
      "default_icon": "images/favicon.ico",
      "default_popup": "popup.html"   
