@@ -10,7 +10,7 @@ var _onDownloadPageRetrieved = function(e){
 			// try  to retrieve the link
 			var d = document.createElement("div");
 			d.innerHTML = r;
-			var a = d.querySelectorAll("#container > h2 > a")[0];		
+			var a = d.querySelectorAll("div.panel-body > p > a")[0];		
 			
 			// add the event listener
 			// the request takes to much time and the response in the
