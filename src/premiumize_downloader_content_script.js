@@ -1,5 +1,5 @@
 var _onDownloadPageRetrieved = function(e){
-	
+
 	if (e.target)
 	{
 		var button = e.target.button;
@@ -10,8 +10,8 @@ var _onDownloadPageRetrieved = function(e){
 			// try  to retrieve the link
 			var d = document.createElement("div");
 			d.innerHTML = r;
-			var a = d.querySelectorAll("div.panel-body > p > a")[0];		
-			
+			var a = d.querySelector("div.panel-body > div.row p > a");
+
 			// add the event listener
 			// the request takes to much time and the response in the
 			// sendMessage func cannot be used
@@ -22,19 +22,21 @@ var _onDownloadPageRetrieved = function(e){
 					switch (message.msg) {
 						case "downloadOK":
 							button.textContent = "Done!";
-							button.disabled = false;	
+							button.disabled = false;
 							button.classList.add('done');
 							break;
 						case "downloadKO":
-							button.textContent = "Error creating the download";
-							button.disabled = false;	
-							button.className = "btn btn-danger";
+							button.textContent = "Error";
+							button.disabled = false;
+							button.className = "btn btn-danger btn-block";
+							button.title = "Error getting the zip download link";
 							break;
 						case "invalidConfiguration":
 						default:
-							button.textContent = "Configuration error";
-							button.disabled = false;	
-							button.className = "btn btn-danger";
+							button.textContent = "Error";
+							button.title = "Configuration error";
+							button.disabled = false;
+							button.className = "btn btn-danger btn-block";
 							break;
 					}
 					// magic!! remove the listener. God I love Javascript closures
@@ -52,9 +54,10 @@ var _onDownloadPageRetrieved = function(e){
 		catch (e)
 		{
 			console.log(e);
-			button.textContent = "Error creating the download";
-			button.disabled = false;	
-			button.className = "btn btn-danger";
+			button.textContent = "Error";
+			button.title = "Error creating the download";
+			button.disabled = false;
+			button.className = "btn btn-danger btn-block";
 		}
 	}
 };
@@ -63,9 +66,10 @@ var _onDownloadError = function(e) {
 	if (e.target)
 	{
 		var button = e.target.button;
-		button.textContent = "Error creating the download";
-		button.disabled = false;	
-		button.className = "btn btn-danger";
+		button.textContent = "Error";
+		button.title = "Error creating the download";
+		button.disabled = false;
+		button.className = "btn btn-danger btn-block";
 	}
 };
 
@@ -88,23 +92,34 @@ var _onInterval = function(){
 	var nodes = document.querySelectorAll("div.torrentItem");
 	for (var i = 0; i < nodes.length; i++){
 		var n = nodes[i];
-		var btnContainer = n.querySelector(".text-center");
-		if (btnContainer && !btnContainer.classList.contains("syno"))
+		var deleteButton = n.querySelector("button.torrent-deletebutton");
+		if (deleteButton && !deleteButton.parentNode.classList.contains("syno"))
 		{
-			var downloadButton = btnContainer.querySelector(".btn.btn-primary");
-			// download button present ?
-			// and not disabled ?
-			if (downloadButton && !downloadButton.classList.contains("disabled"))
+			// Is the progress bar present?
+			var progressBar = n.querySelector("div.progress");
+			var downloadLink = n.querySelector('a.torrentlink');
+
+			if (!progressBar && downloadLink)
 			{
 				// create a new button
 				var btn = document.createElement("button");
-				btn.className = "btn btn-primary";
-				btn.textContent = "Add to my Synology";
-				btn.style.marginLeft = "4px";
-				btn.downloadLink = downloadButton.href;
+				btn.className = "btn btn-primary btn-block";
+
+				btn.downloadLink = downloadLink.href;
 				btn.addEventListener('click', _onButtonClicked, false);
-				btnContainer.appendChild(btn);
-				btnContainer.classList.add("syno");
+
+				var icon = document.createElement("span");
+				icon.className = "glyphicon glyphicon-arrow-up";
+
+				var text = document.createElement("span");
+				text.textContent = "Send";
+
+				btn.title = "Send to the configured Synology Nas Server";
+				btn.appendChild(icon);
+				btn.appendChild(text);
+
+				deleteButton.parentNode.insertBefore(btn, deleteButton);
+				deleteButton.parentNode.classList.add("syno");
 			}
 		}
 	}
@@ -112,4 +127,4 @@ var _onInterval = function(){
 
 
 
-var interval = setInterval(_onInterval, 1000);
+var interval = setInterval(_onInterval, 2000);
