@@ -24,7 +24,7 @@ var _onDownloadPageRetrieved = function(e){
 					switch (message.msg) {
 						case "downloadOK":
 							button.title = "Done!";
-							button.className = "btn btn-success btn-block";
+							button.className = "btn btn-success";
 							if (span) {
 								span.className = "glyphicon glyphicon-ok";
 							}
@@ -34,7 +34,7 @@ var _onDownloadPageRetrieved = function(e){
 						case "downloadKO":
 							// button.textContent = "Error";
 							button.disabled = false;
-							button.className = "btn btn-danger btn-block";
+							button.className = "btn btn-danger";
 							button.title = "Error getting the zip download link";
 							if (span) {
 								span.className = "glyphicon glyphicon-exclamation-sign";
@@ -45,7 +45,7 @@ var _onDownloadPageRetrieved = function(e){
 							// button.textContent = "Error";
 							button.title = "Configuration error";
 							button.disabled = false;
-							button.className = "btn btn-danger btn-block";
+							button.className = "btn btn-danger";
 							if (span) {
 								span.className = "glyphicon glyphicon-exclamation-sign";
 							}
@@ -73,7 +73,7 @@ var _onDownloadPageRetrieved = function(e){
 			if (span) {
 				span.className = "glyphicon glyphicon-exclamation-sign";
 			}
-			button.className = "btn btn-danger btn-block";
+			button.className = "btn btn-danger";
 		}
 	}
 };
@@ -90,7 +90,7 @@ var _onDownloadError = function(e) {
 			span.className = "glyphicon glyphicon-exclamation-sign";
 		}
 		button.disabled = false;
-		button.className = "btn btn-danger btn-block";
+		button.className = "btn btn-danger";
 	}
 };
 
@@ -129,7 +129,7 @@ var _onInterval = function(){
 			{
 				// create a new button
 				var btn = document.createElement("button");
-				btn.className = "btn btn-primary btn-block";
+				btn.className = "btn btn-primary";
 
 				btn.downloadLink = downloadLink.href;
 				btn.addEventListener('click', _onButtonClicked, false);
