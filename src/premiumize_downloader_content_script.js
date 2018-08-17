@@ -21,10 +21,10 @@ var _onDownloadPageRetrieved = function(e){
 						return true;
 					});
 				} else {
-					_onDownloadError.call(e);	
+					_onDownloadError(e);	
 				}
 			} catch (e) {
-				_onDownloadError.call(e);
+				_onDownloadError(e);
 			}
 		} else if (button && button.folderID) {
 			var r = e.target.responseText;
@@ -33,10 +33,10 @@ var _onDownloadPageRetrieved = function(e){
 				if (resp.status && resp.status.toLowerCase() === "success") {					
 					downloadURL = resp.location;					
 				} else {
-					_onDownloadError.call(e);	
+					_onDownloadError(e);	
 				}
 			} catch (e) {
-				_onDownloadError.call(e);
+				_onDownloadError(e);
 			}
 		}
 		if (downloadURL) {
@@ -53,7 +53,7 @@ var _onDownloadPageRetrieved = function(e){
 						switch (message.msg) {
 							case "downloadOK":
 								button.title = "Done!";
-								button.className = "btn btn-success";
+								button.className = "pull-right btn btn-success";
 								if (span) {
 									span.className = "glyphicon glyphicon-ok";
 								}
@@ -63,7 +63,7 @@ var _onDownloadPageRetrieved = function(e){
 							case "downloadKO":
 								// button.textContent = "Error";
 								button.disabled = false;
-								button.className = "btn btn-danger";
+								button.className = "pull-right btn btn-danger";
 								button.title = "Error getting the zip download link";
 								if (span) {
 									span.className = "glyphicon glyphicon-exclamation-sign";
@@ -74,7 +74,7 @@ var _onDownloadPageRetrieved = function(e){
 								// button.textContent = "Error";
 								button.title = "Configuration error";
 								button.disabled = false;
-								button.className = "btn btn-danger";
+								button.className = "pull-right btn btn-danger";
 								if (span) {
 									span.className = "glyphicon glyphicon-exclamation-sign";
 								}
@@ -95,7 +95,7 @@ var _onDownloadPageRetrieved = function(e){
 				_onDownloadError(e);
 			}
 		} else {
-			_onDownloadError.call(e);
+			_onDownloadError(e);
 		}		
 	}
 };
@@ -112,7 +112,7 @@ var _onDownloadError = function(e) {
 			span.className = "glyphicon glyphicon-exclamation-sign";
 		}
 		button.disabled = false;
-		button.className = "btn btn-danger";
+		button.className = "pull-right btn btn-danger";
 	}
 };
 
@@ -161,13 +161,13 @@ var _onButtonClicked = function(e){
 				encodeURIComponent("items[0][type]") + "=" + encodeURIComponent("folder");
 			x.send(formData);
 		} else {
-			_onDownloadError.call(x);
+			_onDownloadError(x);
 		}
 	}
 };
 
 var _onInterval = function(){
-	var nodes = document.querySelectorAll("div.pmcard-row.row");
+	var nodes = document.querySelectorAll("div.transfer");
 	for (var i = 0; i < nodes.length; i++){
 		var n = nodes[i];
 		var deleteButton = n.querySelector("span.glyphicon.glyphicon-trash");
@@ -182,7 +182,7 @@ var _onInterval = function(){
 			{
 				// create a new button
 				var btn = document.createElement("button");
-				btn.className = "btn btn-primary";
+				btn.className = "pull-right btn btn-link";
 
 				var url = downloadLink.href;
 				var aParts = url.split("file_id=");
