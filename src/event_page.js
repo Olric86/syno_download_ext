@@ -251,8 +251,7 @@ var App = (function(){
       }
       else{
         url = info.linkUrl
-      }
-      console.log(info)    
+      }  
       _requestDownload(username, password, url).then(function(){
         chrome.browserAction.setBadgeBackgroundColor({color: "#8DFF70"});
         chrome.browserAction.setBadgeText({text: "Ok"});      
@@ -286,7 +285,6 @@ var App = (function(){
 			{				
 				if (host != "" && username != "" && password != "")
 				{
-          console.log(msg)
 					_requestDownload(username, password, msg.url).then(function(){						
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
               chrome.tabs.sendMessage(tabs[0].id, {msg: "downloadOK", url: msg.url});
