@@ -241,8 +241,19 @@ var App = (function(){
   		username = localStorage['o.s.username'] ? localStorage['o.s.username'] : "";  
   		password = localStorage['o.s.password'] ? localStorage['o.s.password'] : "";
 			chrome.browserAction.setBadgeBackgroundColor({color: "#FFFD70"});
-      chrome.browserAction.setBadgeText({text: "..."});      
-      _requestDownload(username, password, info.linkUrl).then(function(){
+      chrome.browserAction.setBadgeText({text: "..."});  
+      let url = ""
+      if (info.hasOwnProperty("srcUrl")) {
+        url = info.srcUrl;
+      }
+      else if (info.hasOwnProperty("selectionText")) {
+        url = info.selectionText
+      }
+      else{
+        url = info.linkUrl
+      }
+      console.log(info)    
+      _requestDownload(username, password, url).then(function(){
         chrome.browserAction.setBadgeBackgroundColor({color: "#8DFF70"});
         chrome.browserAction.setBadgeText({text: "Ok"});      
         setTimeout(function(){
@@ -275,6 +286,7 @@ var App = (function(){
 			{				
 				if (host != "" && username != "" && password != "")
 				{
+          console.log(msg)
 					_requestDownload(username, password, msg.url).then(function(){						
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
               chrome.tabs.sendMessage(tabs[0].id, {msg: "downloadOK", url: msg.url});
