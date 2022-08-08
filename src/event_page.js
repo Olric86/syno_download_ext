@@ -263,7 +263,7 @@ var App = (function(){
 			chrome.contextMenus.create({
 				type: "normal",
 				id:   "addToSynologyMenu",
-				contexts: ["link"],
+				contexts: ["link","video","selection"],
 				title: "Add to my Synology"
 			});
 		});
