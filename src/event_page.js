@@ -241,8 +241,18 @@ var App = (function(){
   		username = localStorage['o.s.username'] ? localStorage['o.s.username'] : "";  
   		password = localStorage['o.s.password'] ? localStorage['o.s.password'] : "";
 			chrome.browserAction.setBadgeBackgroundColor({color: "#FFFD70"});
-      chrome.browserAction.setBadgeText({text: "..."});      
-      _requestDownload(username, password, info.linkUrl).then(function(){
+      chrome.browserAction.setBadgeText({text: "..."});  
+      let url = ""
+      if (info.hasOwnProperty("srcUrl")) {
+        url = info.srcUrl;
+      }
+      else if (info.hasOwnProperty("selectionText")) {
+        url = info.selectionText
+      }
+      else{
+        url = info.linkUrl
+      }  
+      _requestDownload(username, password, url).then(function(){
         chrome.browserAction.setBadgeBackgroundColor({color: "#8DFF70"});
         chrome.browserAction.setBadgeText({text: "Ok"});      
         setTimeout(function(){
@@ -263,7 +273,7 @@ var App = (function(){
 			chrome.contextMenus.create({
 				type: "normal",
 				id:   "addToSynologyMenu",
-				contexts: ["link"],
+				contexts: ["link","video","selection"],
 				title: "Add to my Synology"
 			});
 		});
